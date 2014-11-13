@@ -67,8 +67,21 @@ void GlWidget::initializeGL()
     shaderProgram.addShaderFromSourceFile(QGLShader::Fragment, ":/fragmentShader.fsh");
     shaderProgram.link();
 
-    vertices << QVector3D(1, 0, -4) << QVector3D(0.5f, 0.86f, -4) << QVector3D(-0.5f, 0.86f, -4) << QVector3D(-1, 0, -4)
-                << QVector3D(-0.5f, -0.86f, -4) << QVector3D(0.5f, -0.86f, -4);
+    int z = -5;
+
+    vertices << QVector3D(0.5f, 0, z) << QVector3D(0.5f, 0.86f, z)
+             << QVector3D(0.5f, 0.86f, z) << QVector3D(-0.5f, 0.86f, z)
+             << QVector3D(-0.5f, 0.86f, z) << QVector3D(-0.5f, 0, z)
+             << QVector3D(-0.5f, 0, z) << QVector3D(-0.5f, -0.86f, z)
+             << QVector3D(-0.5f, -0.86f, z) << QVector3D(0.5f, -0.86f, z)
+             << QVector3D(0.5f, -0.86f, z) << QVector3D(0.5f, 0, z)
+             /**/
+             << QVector3D(0.5f, 0, z) << QVector3D(1.5f, 0, z) << QVector3D(1.5f, 0, z) << QVector3D(2.5f, 0, z)
+             << QVector3D(0.5f, 0.86f, z) << QVector3D(1, 1.72f, z) << QVector3D(1, 1.72f, z) << QVector3D(1.5f, 2.58f, z)
+             << QVector3D(-0.5f, 0.86f, z) << QVector3D(-1, 1.72f, z) << QVector3D(-1, 1.72f, z) << QVector3D(-1.5f, 2.56f, z)
+             << QVector3D(-0.5f, 0, z) << QVector3D(-1.5f, 0, z) << QVector3D(-1.5f, 0, z) << QVector3D(-2.5f, 0, z)
+             << QVector3D(-0.5f, -0.86f, z) << QVector3D(-1, -1.72f, z) << QVector3D(-1, -1.72f, z) << QVector3D(-1.5f, -2.58f, z)
+             << QVector3D(0.5f, -0.86f, z) << QVector3D(1, -1.72f, z) << QVector3D(1, -1.72f, z) << QVector3D(1.5f, -2.56f, z);
 }
 //! [1]
 
@@ -103,7 +116,7 @@ void GlWidget::paintGL()
     shaderProgram.setAttributeArray("vertex", vertices.constData());
     shaderProgram.enableAttributeArray("vertex");
 
-    glDrawArrays(GL_POLYGON, 0, vertices.size());
+    glDrawArrays(GL_LINES, 0, vertices.size());
 
     shaderProgram.disableAttributeArray("vertex");
 
