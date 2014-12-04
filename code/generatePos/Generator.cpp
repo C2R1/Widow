@@ -3,6 +3,7 @@
 #include <string>
 #include <random>
 #include <fstream>
+#include <unistd.h>
 
 Generator::Generator()
 {
@@ -38,4 +39,9 @@ void Generator::writeVector(std::string filename)
     fs << *it << std::endl;
     
   fs.close();
+}
+
+void Generator::launchSim()
+{
+   system("cd ~/Téléchargements/V-REP_PRO_EDU_V3_1_3_rev2b_64_Linux/; sh vrep.sh -s -q /home/AmarOk/Projets/hexapod.ttt");
 }
