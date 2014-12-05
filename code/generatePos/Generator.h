@@ -3,15 +3,16 @@
 #include <vector>
 #include <iostream>
 
+#include "Population.h"
+
 class Generator
 {
   public:
     Generator();
     ~Generator();
-    void generatePosServo(int nbServo, int borneMin = 0, int borneMax = 180);
-    void writeVector(std::string filename);
+    void writeVector(std::string basename);
     void launchSim();
     
   private:
-    std::vector<int> posServos;
+    Population population;
 };

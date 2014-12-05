@@ -1,13 +1,13 @@
 #include "Generator.h"
 
 #include <string>
-#include <random>
 #include <fstream>
 #include <unistd.h>
 
 Generator::Generator()
 {
-
+  population.generatePop(1000);
+  writeVector("ind");
 }
 
 Generator::~Generator()
@@ -15,30 +15,25 @@ Generator::~Generator()
 
 }
 
-void Generator::generatePosServo(int nbServo, int borneMin, int borneMax)
+void Generator::writeVector(std::string basename)
 {
-  posServos.clear();
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<> dis(borneMin, borneMax);
- 
-  for(auto i = 0; i < nbServo; ++i)
-    posServos.push_back(dis(gen));
-}
-
-void Generator::writeVector(std::string filename)
-{
-  std::ofstream fs(filename); 
-  if(!fs)
+  std::vector<std::vector<int>> inds = population.getInds();
+  for(auto i = 0; i < population.size(); ++i)
   {
-    std::cerr<<"Cannot open the output file."<<std::endl;
-    return ;
-  }
+    std::ofstream fs(basename + std::to_string(i));
+		if(!fs)
+		{
+		  std::cerr<<"Cannot open the output file."<<std::endl;
+		  return ;
+		}
+		
+		std::vector<int> ind = inds.at(i);
+		
+		for(auto it = ind.begin(); it != ind.end(); ++it)
+      fs << *it << std::endl;
   
-  for(auto it = posServos.begin(); it != posServos.end(); ++it)
-    fs << *it << std::endl;
-    
-  fs.close();
+    fs.close();
+  }    
 }
 
 void Generator::launchSim()
