@@ -17,7 +17,7 @@ Population::~Population()
 void Population::generatePop(int nbInd)
 {
   for(auto i = 0; i < nbInd; ++i)
-    posServos.insert(std::make_pair(generatePosServo(18,0,180),0));
+    posServos.insert(std::make_pair(generatePosServo(21,0,180),0));
 }
 
 std::vector<int> Population::generatePosServo(int nbServo, int borneMin, int borneMax)
@@ -36,7 +36,7 @@ std::vector<int> Population::generatePosServo(int nbServo, int borneMin, int bor
 std::vector<std::vector<int>> Population::getInds()
 {
   std::vector<std::vector<int>> result;
-  for(std::map<std::vector<int>,int>::iterator it = posServos.begin(); it != posServos.end(); ++it)
+  for(std::map<std::vector<int>,float>::iterator it = posServos.begin(); it != posServos.end(); ++it)
     result.push_back(it->first);
   return result;
 }
@@ -44,4 +44,17 @@ std::vector<std::vector<int>> Population::getInds()
 int Population::size()
 {
  return posServos.size();
+}
+
+void Population::setValue(int ind, float score)
+{
+  std::vector<std::vector<int>> result;
+  auto i = 0; 
+  for(std::map<std::vector<int>,float>::iterator it = posServos.begin(); it != posServos.end(); ++it)
+  {
+	  if(i == ind)
+		  it->second = score;
+		++i;
+  }
+ // std::cout << score << std::endl;
 }

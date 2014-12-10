@@ -2,7 +2,8 @@
 
 int main()
 {
-  Generator generator;
-  generator.launchSim();
-  return 0;
+	Generator generator;
+	//generator.launchSim();
+	generator.evaluatePop("/home/AmarOk/posWidow");
+	return 0;
 }
