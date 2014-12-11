@@ -13,9 +13,10 @@ class Population
     std::vector<int> generatePosServo(int nbServo, int borneMin, int borneMax);
     std::vector<std::vector<int>> getInds();
     int size();
-    void setValue(int ind, float score);
+    void setValue(int ind, double score);
+		void sortPop();
     
   private:
-    std::map<std::vector<int>, float> posServos;
+    std::vector<std::pair<std::vector<int>, double>> posServos;
 };
 
