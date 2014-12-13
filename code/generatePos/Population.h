@@ -16,9 +16,12 @@ class Population
     int size();
     void setValue(int ind, double score);
 		void sortPop();
+		void mutateInd(int ind);
+		void mutatePop();
     
   private:
     std::vector<std::pair<std::vector<int>, double>> posServos;
+    int _mutatePercent;
 };
 
 #endif
