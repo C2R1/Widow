@@ -1,4 +1,5 @@
-#pragma once
+#ifndef POPULATION_H
+#define POPULATION_H
 
 #include <vector>
 #include <iostream>
@@ -20,3 +21,4 @@ class Population
     std::vector<std::pair<std::vector<int>, double>> posServos;
 };
 
+#endif

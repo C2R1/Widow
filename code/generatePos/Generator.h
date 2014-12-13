@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GENERATOR_H
+#define GENERATOR_H
 
 #include <vector>
 #include <iostream>
@@ -18,3 +19,5 @@ class Generator
   private:
     Population population;
 };
+
+#endif
