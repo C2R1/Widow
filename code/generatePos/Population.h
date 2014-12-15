@@ -18,6 +18,7 @@ class Population
 		void sortPop();
 		void mutateInd(int ind);
 		void mutatePop();
+		std::vector<int> crossOver(std::vector<int> v1, std::vector<int> v2);
     
   private:
     std::vector<std::pair<std::vector<int>, double>> posServos;

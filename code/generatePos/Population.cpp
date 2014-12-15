@@ -57,7 +57,6 @@ void Population::setValue(int ind, double score)
 		  it->second = score;
 		++i;
   }
-//  std::cout << score << std::endl;
 }
 void Population::sortPop()
 {
@@ -69,6 +68,7 @@ void Population::sortPop()
 	});
 	
 	//Show content
+	/** /
 	std::cout << "TRIE" << std::endl;
 	for(std::vector<std::pair<std::vector<int>, double>>::iterator it = posServos.begin(); it != posServos.end(); ++it)
   {
@@ -78,6 +78,7 @@ void Population::sortPop()
 	    std::cout << temp.at(i) << ";";
 	  std::cout << ", " << it->second << "]" << std::endl;
   }
+  /**/
 }
 
 void Population::mutatePop()
@@ -92,6 +93,7 @@ void Population::mutatePop()
   }
   
 	//Show content
+	/** /
 	std::cout << "TRIE" << std::endl;
 	for(std::vector<std::pair<std::vector<int>, double>>::iterator it = posServos.begin(); it != posServos.end(); ++it)
   {
@@ -101,6 +103,7 @@ void Population::mutatePop()
 	    std::cout << temp.at(i) << ";";
 	  std::cout << ", " << it->second << "]" << std::endl;
   }
+  /**/
 }
 
 void Population::mutateInd(int ind)
@@ -115,4 +118,21 @@ void Population::mutateInd(int ind)
   std::uniform_int_distribution<> dis2(0, 180);
  
   posServos.at(ind).first.at(dis(gen)) = dis2(gen2);
+}
+
+
+std::vector<int> Population::crossOver(std::vector<int> v1, std::vector<int> v2)
+{
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> dis(1, std::min(v1.size(), v2.size() - 1));
+  auto pos = dis(gen);
+  
+  std::vector<int> res;  
+  for(auto i = 0; i < pos && i < v1.size(); ++i)
+    res.push_back(v1.at(i));
+  for(auto i = pos;i < v2.size(); ++i)
+    res.push_back(v2.at(i));
+    
+  return res;
 }
