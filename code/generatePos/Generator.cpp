@@ -71,8 +71,9 @@ void Generator::evaluatePop(std::string filename)
     fs.close();
   }
   
-  population.sortPop();  
+  population.sortPop();
   population.mutatePop();
+  population.generateNewPop();
 }
 
 void Generator::launchSim()

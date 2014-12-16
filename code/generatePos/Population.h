@@ -11,6 +11,7 @@ class Population
     Population();
     ~Population();
     void generatePop(int nbInd);
+    void generateNewPop();
     std::vector<int> generatePosServo(int nbServo, int borneMin, int borneMax);
     std::vector<std::vector<int>> getInds();
     int size();
