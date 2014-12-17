@@ -145,19 +145,27 @@ void Population::generateNewPop()
   for(auto i = 0; i < nbInd/4; ++i)
     newPop.push_back(std::make_pair(posServos.at(i).first, 0.));
     
-  //1/2 crossOver TODO improve with a law
-  //auto weight = (1/2)*(posServos.size())*(posServos.size() + 1); 
+  //1/2 crossOver
+  auto weight = (1/2)*(posServos.size()-1)*posServos.size(); 
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::uniform_int_distribution<> dis(0, (posServos.size()-1)/2);
-  std::uniform_int_distribution<> dis2(0, posServos.size()-1);
-  for(auto i = 0; i < nbInd/4; ++i)
-    newPop.push_back(std::make_pair(crossOver(posServos.at(dis(gen)).first, posServos.at(dis(gen)).first), 0.));
-  for(auto i = 0; i < nbInd/4; ++i)
-    newPop.push_back(std::make_pair(crossOver(posServos.at(dis2(gen)).first, posServos.at(dis2(gen)).first), 0.));
+  std::uniform_int_distribution<> dis(0, weight);
+  for(auto i = 0; i < nbInd/2; ++i)
+    newPop.push_back(std::make_pair(crossOver(posServos.at(decNumber(dis(gen))).first,
+                                              posServos.at(decNumber(dis(gen))).first), 0.));
   
   //1/4 new ind  
   for(auto i = 0; i < nbInd; ++i)
     posServos.push_back(std::make_pair(generatePosServo(21,0,180),0));
   posServos = newPop;
+}
+
+int Population::decNumber(int nb)
+{
+  int res = 0;
+  
+  while(nb > (res*(res+1))/2)
+    ++res;
+  
+  return res;
 }

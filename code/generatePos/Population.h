@@ -20,6 +20,8 @@ class Population
 		void mutateInd(int ind);
 		void mutatePop();
 		std::vector<int> crossOver(std::vector<int> v1, std::vector<int> v2);
+		
+		int decNumber(int nb);
     
   private:
     std::vector<std::pair<std::vector<int>, double>> posServos;
