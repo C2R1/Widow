@@ -12,6 +12,9 @@ Generator::Generator()
 {
   population.generatePop(1000);
   writeVector("posServo");
+  evaluatePop("/home/AmarOk/posWidow");
+  population.mutatePop();
+  population.generateNewPop();
 }
 
 Generator::~Generator()
@@ -19,6 +22,10 @@ Generator::~Generator()
 
 }
 
+/**
+ * Write population into files
+ * @param: basename: basename of the file
+ */
 void Generator::writeVector(std::string basename)
 {
   std::vector<std::vector<int>> inds = population.getInds();
@@ -40,6 +47,10 @@ void Generator::writeVector(std::string basename)
   }    
 }
 
+/**
+ * Evaluate the current population
+ * @param: basename of the output of V-rep
+ */
 void Generator::evaluatePop(std::string filename)
 {
   for(auto i = 0; i < population.size(); ++i)
@@ -72,15 +83,23 @@ void Generator::evaluatePop(std::string filename)
   }
   
   population.sortPop();
-  population.mutatePop();
-  population.generateNewPop();
 }
 
+/**
+ * Launch V-rep
+ */
 void Generator::launchSim()
 {
    system("cd ~/Téléchargements/V-REP_PRO_EDU_V3_1_3_rev2b_64_Linux/; sh vrep.sh -s -q /home/AmarOk/Projets/hexapod.ttt");
 }
 
+/**
+ * Replace a string
+ * @param: str: the base string
+ * @param: from: the string to replace
+ * @param: to: the new string wich replace the old string
+ * @return if from is present in str
+ */
 bool Generator::replace(std::string& str, const std::string& from, const std::string& to)
 {
   size_t start_pos = str.find(from);

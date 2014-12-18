@@ -15,12 +15,13 @@ Population::~Population()
 
 }
 
-void Population::generatePop(int nbInd)
-{
-  for(auto i = 0; i < nbInd; ++i)
-    posServos.push_back(std::make_pair(generatePosServo(21,0,180),0));
-}
-
+/**
+ * Generate a std::vector<int>
+ * @param: nbServo: the size of the vector
+ * @param: borneMin: the min of the int
+ * @param: borneMax: the max of the int
+ * @return the vector
+ */
 std::vector<int> Population::generatePosServo(int nbServo, int borneMin, int borneMax)
 {
   std::vector<int> _posServos;
@@ -34,6 +35,46 @@ std::vector<int> Population::generatePosServo(int nbServo, int borneMin, int bor
   return _posServos;
 }
 
+/**
+ * Generate the first population
+ * @param: nbInd: the size of the population
+ */
+void Population::generatePop(int nbInd)
+{
+  for(auto i = 0; i < nbInd; ++i)
+    posServos.push_back(std::make_pair(generatePosServo(21,0,180),0));
+}
+
+/**
+ * Generate a new generation
+ */
+void Population::generateNewPop()
+{
+  auto nbInd = posServos.size();
+  std::vector<std::pair<std::vector<int>, double>> newPop;
+  //1/4 best
+  for(auto i = 0; i < nbInd/4; ++i)
+    newPop.push_back(std::make_pair(posServos.at(i).first, 0.));
+    
+  //1/2 crossOver
+  auto weight = (1/2)*(posServos.size()-1)*posServos.size(); 
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> dis(0, weight);
+  for(auto i = 0; i < nbInd/2; ++i)
+    newPop.push_back(std::make_pair(crossOver(posServos.at(decNumber(dis(gen))).first,
+                                              posServos.at(decNumber(dis(gen))).first), 0.));
+  
+  //1/4 new ind  
+  for(auto i = 0; i < nbInd; ++i)
+    posServos.push_back(std::make_pair(generatePosServo(21,0,180),0));
+  posServos = newPop;
+}
+
+
+/**
+ * @return all individuals of the population
+ */
 std::vector<std::vector<int>> Population::getInds()
 {
   std::vector<std::vector<int>> result;
@@ -42,45 +83,37 @@ std::vector<std::vector<int>> Population::getInds()
   return result;
 }
 
-int Population::size()
-{
- return posServos.size();
-}
-
+/**
+ * Set the score of an individual
+ * @param: ind: the position of the individual
+ * @param: score: the score to set
+ */
 void Population::setValue(int ind, double score)
 {
-  std::vector<std::vector<int>> result;
-  auto i = 0; 
-  for(std::vector<std::pair<std::vector<int>, double>>::iterator it = posServos.begin(); it != posServos.end(); ++it)
-  {
-	  if(i == ind)
-		  it->second = score;
-		++i;
-  }
-}
-void Population::sortPop()
-{
-  //Sort list
-  std::sort(posServos.begin(), posServos.end(),
-  [=](std::pair<std::vector<int>, double> A, std::pair<std::vector<int>, double> B)
-	{
-		return A.second > B.second;
-	});
-	
-	//Show content
-	/**/
-	std::cout << "TRIE" << std::endl;
-	for(std::vector<std::pair<std::vector<int>, double>>::iterator it = posServos.begin(); it != posServos.end(); ++it)
-  {
-    std::vector<int> temp =  it->first;
-	  std::cout << "[";
-	  for(auto i = 0; i < temp.size(); ++i)
-	    std::cout << temp.at(i) << ";";
-	  std::cout << ", " << it->second << "]" << std::endl;
-  }
-  /**/
+  posServos.at(ind).second = score;
 }
 
+/**
+ * Mutate one int of a std::vector<int>
+ * @param: ind: the pos of the individual to mutate
+ */
+void Population::mutateInd(int ind)
+{
+  auto max = posServos.at(0).first.size() - 1;
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> dis(0, max);
+  
+  std::random_device rd2;
+  std::mt19937 gen2(rd2());
+  std::uniform_int_distribution<> dis2(0, 180);
+ 
+  posServos.at(ind).first.at(dis(gen)) = dis2(gen2);
+}
+
+/**
+ * Mutate all the population with a probability of _mutatePercent
+ */
 void Population::mutatePop()
 { 
   std::random_device rd;
@@ -106,21 +139,38 @@ void Population::mutatePop()
   /**/
 }
 
-void Population::mutateInd(int ind)
+/**
+ * Sort the population with the score
+ */
+void Population::sortPop()
 {
-  auto max = posServos.at(0).first.size() - 1;
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<> dis(0, max);
-  
-  std::random_device rd2;
-  std::mt19937 gen2(rd2());
-  std::uniform_int_distribution<> dis2(0, 180);
- 
-  posServos.at(ind).first.at(dis(gen)) = dis2(gen2);
+  //Sort list
+  std::sort(posServos.begin(), posServos.end(),
+  [=](std::pair<std::vector<int>, double> A, std::pair<std::vector<int>, double> B)
+	{
+		return A.second > B.second;
+	});
+	
+	//Show content
+	/** /
+	std::cout << "TRIE" << std::endl;
+	for(std::vector<std::pair<std::vector<int>, double>>::iterator it = posServos.begin(); it != posServos.end(); ++it)
+  {
+    std::vector<int> temp =  it->first;
+	  std::cout << "[";
+	  for(auto i = 0; i < temp.size(); ++i)
+	    std::cout << temp.at(i) << ";";
+	  std::cout << ", " << it->second << "]" << std::endl;
+  }
+  /**/
 }
 
-
+/**
+ * Mix 2 vector<int>
+ * @param: v1: first vector
+ * @param: v2: second vector
+ * @return the result of the mixing
+ */
 std::vector<int> Population::crossOver(std::vector<int> v1, std::vector<int> v2)
 {
   std::random_device rd;
@@ -137,29 +187,9 @@ std::vector<int> Population::crossOver(std::vector<int> v1, std::vector<int> v2)
   return res;
 }
 
-void Population::generateNewPop()
-{
-  auto nbInd = posServos.size();
-  std::vector<std::pair<std::vector<int>, double>> newPop;
-  //1/4 best
-  for(auto i = 0; i < nbInd/4; ++i)
-    newPop.push_back(std::make_pair(posServos.at(i).first, 0.));
-    
-  //1/2 crossOver
-  auto weight = (1/2)*(posServos.size()-1)*posServos.size(); 
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<> dis(0, weight);
-  for(auto i = 0; i < nbInd/2; ++i)
-    newPop.push_back(std::make_pair(crossOver(posServos.at(decNumber(dis(gen))).first,
-                                              posServos.at(decNumber(dis(gen))).first), 0.));
-  
-  //1/4 new ind  
-  for(auto i = 0; i < nbInd; ++i)
-    posServos.push_back(std::make_pair(generatePosServo(21,0,180),0));
-  posServos = newPop;
-}
-
+/**
+ * Find the number x where x! <= nb <=  (x+1)!
+ */
 int Population::decNumber(int nb)
 {
   int res = 0;
