@@ -11,10 +11,13 @@
 Generator::Generator()
 {
   population.generatePop(1000);
-  writeVector("posServo");
-  evaluatePop("/home/AmarOk/posWidow");
-  population.mutatePop();
-  population.generateNewPop();
+  _nbSim = 100;
+}
+
+Generator::Generator(int nbSim)
+{
+  population.generatePop(1000);
+  _nbSim = nbSim;
 }
 
 Generator::~Generator()
@@ -86,11 +89,18 @@ void Generator::evaluatePop(std::string filename)
 }
 
 /**
- * Launch V-rep
+ * Launch the simulation
  */
 void Generator::launchSim()
 {
-   system("cd ~/Téléchargements/V-REP_PRO_EDU_V3_1_3_rev2b_64_Linux/; sh vrep.sh -s -q /home/AmarOk/Projets/hexapod.ttt");
+  for(auto i = 0; i < _nbSim; ++i)
+  {
+		writeVector("posServo");
+		system("cd ~/Téléchargements/V-REP_PRO_EDU_V3_1_3_rev2b_64_Linux/; sh vrep.sh -s -q /home/AmarOk/Projets/hexapod.ttt");
+		evaluatePop("/home/AmarOk/posWidow");
+		population.mutatePop();
+		population.generateNewPop();
+  }
 }
 
 /**

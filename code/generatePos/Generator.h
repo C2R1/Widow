@@ -13,6 +13,7 @@ class Generator
 {
   public:
     Generator();
+    Generator(int nbSim);
     ~Generator();
     void writeVector(std::string basename);
     void evaluatePop(std::string filename);
@@ -22,6 +23,7 @@ class Generator
     
   private:
     Population population;
+    int _nbSim;
 };
 
 #endif

@@ -20,6 +20,6 @@ as the name is changed.
 int main()
 {
 	Generator generator;
-	//generator.launchSim();
+	generator.launchSim();
 	return 0;
 }
