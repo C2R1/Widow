@@ -93,12 +93,21 @@ void Generator::evaluatePop(std::string filename)
  */
 void Generator::launchSim()
 {
+  std::cout << "Simulate WIDOW" << std::endl;
   for(auto i = 0; i < _nbSim; ++i)
   {
+    std::cout << "Save Population" << std::endl;
 		writeVector("posServo");
-		system("cd ~/Téléchargements/V-REP_PRO_EDU_V3_1_3_rev2b_64_Linux/; sh vrep.sh -s -q /home/AmarOk/Projets/hexapod.ttt");
+    std::cout << "Launch V-rep" << std::endl;
+		system("cd ~/Téléchargements/V-REP_PRO_EDU_V3_1_3_rev2b_64_Linux/; sh vrep.sh -h -s -q /home/AmarOk/Projets/hexapod.ttt");
+    std::cout << "Evaluate Population" << std::endl;
 		evaluatePop("/home/AmarOk/posWidow");
+    std::cout << "Sort Population" << std::endl;
+		population.sortPop();
+    std::cout << "Best score: " << population.best() << std::endl;
+    std::cout << "Mutate Population" << std::endl;
 		population.mutatePop();
+    std::cout << "Generate new Population - n°" << i+1 << std::endl;
 		population.generateNewPop();
   }
 }

@@ -94,6 +94,19 @@ void Population::setValue(int ind, double score)
 }
 
 /**
+ * @return: a string which represent the best individual
+ */
+std::string Population::best()
+{
+  std::string res = std::to_string(posServos.at(0).second) + " [";
+  
+  std::vector<int> temp = posServos.at(0).first;
+  for(auto i = 0; i < temp.size(); ++i)
+    res += std::to_string(temp.at(i)) + ";";
+  return res + "]";
+}
+
+/**
  * Mutate one int of a std::vector<int>
  * @param: ind: the pos of the individual to mutate
  */

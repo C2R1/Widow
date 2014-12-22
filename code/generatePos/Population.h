@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <string>
 
 /**
  * A population of servos position
@@ -21,6 +22,7 @@ class Population
     std::vector<std::vector<int>> getInds();
     inline int size() {return posServos.size();};
     void setValue(int ind, double score);
+    std::string best();
     
 		void mutateInd(int ind);
 		void mutatePop();
