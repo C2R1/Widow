@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <algorithm>
+#include <fstream>
 
 Population::Population()
 {
@@ -137,19 +138,6 @@ void Population::mutatePop()
     if(dis(gen) <= _mutatePercent)
       mutateInd(i);
   }
-  
-	//Show content
-	/** /
-	std::cout << "TRIE" << std::endl;
-	for(std::vector<std::pair<std::vector<int>, double>>::iterator it = posServos.begin(); it != posServos.end(); ++it)
-  {
-    std::vector<int> temp =  it->first;
-	  std::cout << "[";
-	  for(auto i = 0; i < temp.size(); ++i)
-	    std::cout << temp.at(i) << ";";
-	  std::cout << ", " << it->second << "]" << std::endl;
-  }
-  /**/
 }
 
 /**
@@ -163,19 +151,6 @@ void Population::sortPop()
 	{
 		return A.second > B.second;
 	});
-	
-	//Show content
-	/** /
-	std::cout << "TRIE" << std::endl;
-	for(std::vector<std::pair<std::vector<int>, double>>::iterator it = posServos.begin(); it != posServos.end(); ++it)
-  {
-    std::vector<int> temp =  it->first;
-	  std::cout << "[";
-	  for(auto i = 0; i < temp.size(); ++i)
-	    std::cout << temp.at(i) << ";";
-	  std::cout << ", " << it->second << "]" << std::endl;
-  }
-  /**/
 }
 
 /**
@@ -211,4 +186,23 @@ int Population::decNumber(int nb)
     ++res;
   
   return res;
+}
+
+void Population::debugWP(std::string filename)
+{
+  std::ofstream fs(filename);
+	if(!fs)
+	{
+	 std::cerr<<"Cannot open the output file."<<std::endl;
+	 return ;
+	}
+	for(std::vector<std::pair<std::vector<int>, double>>::iterator it = posServos.begin(); it != posServos.end(); ++it)
+  {
+    std::vector<int> temp =  it->first;
+	  fs << "[";
+	  for(auto i = 0; i < temp.size(); ++i)
+	    fs << temp.at(i) << ";";
+	  fs << ", " << it->second << "]" << std::endl;
+  }
+  fs.close();
 }

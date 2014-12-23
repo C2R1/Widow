@@ -99,16 +99,18 @@ void Generator::launchSim()
     std::cout << "Save Population" << std::endl;
 		writeVector("posServo");
     std::cout << "Launch V-rep" << std::endl;
-		system("cd ~/Téléchargements/V-REP_PRO_EDU_V3_1_3_rev2b_64_Linux/; sh vrep.sh -h -s -q /home/AmarOk/Projets/hexapod.ttt");
+		system("cd ~/Téléchargements/V-REP_PRO_EDU_V3_1_3_rev2b_64_Linux/; sh vrep.sh -h -s -q /home/AmarOk/Projets/hexapod.ttt > log_vrep");
     std::cout << "Evaluate Population" << std::endl;
 		evaluatePop("/home/AmarOk/posWidow");
     std::cout << "Sort Population" << std::endl;
 		population.sortPop();
+		//population.debugWP("sorted"+std::to_string(i));
     std::cout << "Best score: " << population.best() << std::endl;
     std::cout << "Mutate Population" << std::endl;
 		population.mutatePop();
     std::cout << "Generate new Population - n°" << i+1 << std::endl;
-		population.generateNewPop();
+		population.generateNewPop();		
+		//population.debugWP("nP"+std::to_string(i));
   }
 }
 

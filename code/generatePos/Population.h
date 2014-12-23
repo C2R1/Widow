@@ -30,6 +30,8 @@ class Population
 		std::vector<int> crossOver(std::vector<int> v1, std::vector<int> v2);
 		
 		static int decNumber(int nb);
+		
+		void debugWP(std::string filename);
     
   private:
     std::vector<std::pair<std::vector<int>, double>> posServos;
