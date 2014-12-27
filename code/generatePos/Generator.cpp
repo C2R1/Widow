@@ -97,11 +97,11 @@ void Generator::launchSim()
   for(auto i = 0; i < _nbSim; ++i)
   {
     std::cout << "Save Population" << std::endl;
-		writeVector("posServo");
+		writeVector("rsc/pos/posServo");
     std::cout << "Launch V-rep" << std::endl;
-		system("cd ~/Téléchargements/V-REP_PRO_EDU_V3_1_3_rev2b_64_Linux/; sh vrep.sh -h -s -q /home/AmarOk/Projets/hexapod.ttt > log_vrep");
+		system("cd rsc/vrep/; sh vrep.sh -h -s -q ../hexapod.ttt > log_vrep");
     std::cout << "Evaluate Population" << std::endl;
-		evaluatePop("/home/AmarOk/posWidow");
+		evaluatePop("rsc/pos/posWidow");
     std::cout << "Sort Population" << std::endl;
 		population.sortPop();
 		population.debugWP("sorted"+std::to_string(i));
