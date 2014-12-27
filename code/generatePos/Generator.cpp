@@ -104,13 +104,13 @@ void Generator::launchSim()
 		evaluatePop("/home/AmarOk/posWidow");
     std::cout << "Sort Population" << std::endl;
 		population.sortPop();
-		//population.debugWP("sorted"+std::to_string(i));
+		population.debugWP("sorted"+std::to_string(i));
     std::cout << "Best score: " << population.best() << std::endl;
     std::cout << "Mutate Population" << std::endl;
 		population.mutatePop();
     std::cout << "Generate new Population - n°" << i+1 << std::endl;
 		population.generateNewPop();		
-		//population.debugWP("nP"+std::to_string(i));
+		population.debugWP("nP"+std::to_string(i));
   }
 }
 
